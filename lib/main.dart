@@ -35,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late double _number1;
   late double _number2;
   double _answer = 0;
+  bool _noterror = true;
 
   void _addition() {
     setState(() {
@@ -56,9 +57,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _division() {
     setState(() {
-      _answer = _number1 / _number2;
+      if(_number2==0){
+        _noterror=false;
+      } else {
+        _answer = _number1 / _number2;
+      }
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       border: OutlineInputBorder(),
                     ),
                     onChanged: (value) {
+                      _noterror = true;
                       _number2 = double.parse(value);
                     },
                   ),
@@ -105,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Padding(
                 padding: const EdgeInsets.all(15),
-                child: Text('結果: $_answer'),
+                child: Text(_noterror?'結果: $_answer':'割る数に０は指定できません'),
               )
             ],
           ),
@@ -113,24 +120,16 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
-                  onPressed: () {
-                    _addition();
-                  },
+                  onPressed: _addition,
                   child: const Text('+')),
               ElevatedButton(
-                  onPressed: () {
-                    _subtraction();
-                  },
+                  onPressed: _subtraction,
                   child: const Text('-')),
               ElevatedButton(
-                  onPressed: () {
-                    _multiplication();
-                  },
+                  onPressed: _multiplication,
                   child: const Text('×')),
               ElevatedButton(
-                  onPressed: () {
-                    _division();
-                  },
+                  onPressed: _division,
                   child: const Text('÷')),
             ],
           )
